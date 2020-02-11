@@ -21,15 +21,6 @@ function getCoordinates(array, char) {
     return undefined
 }
 
-function continuity(pos, array){
-    for(let i=0;i<array.length;i++){
-        if(JSON.stringify(array[i][0])===JSON.stringify(pos)){
-            return pos;
-        }
-    }
-    return false
-}
-
 let paths=[];
 let lastBeaten;
 let leftRight;
@@ -74,6 +65,14 @@ function solution(B) {
                 B[fork[1][0]][fork[1][1]]='*'
                 B[pawn[0]][pawn[1]]='O'
             }
+function continuity(pos, array){
+    for(let i=0;i<array.length;i++){
+        if(JSON.stringify(array[i][0])===JSON.stringify(pos)){
+            return pos;
+        }
+    }
+    return false
+}
         } if((checkPos(lastBeaten[1],lastBeaten[0],B)[0]!=0 && checkPos(lastBeaten[1],lastBeaten[0],B)[1]==0)||
             leftRight==='2'){
             let row=paths[paths.length-1].slice(0)
@@ -90,91 +89,60 @@ function solution(B) {
     }
 
     if(JSON.stringify(initPawn)===JSON.stringify(pawn)){
-        let finalPath=[]
-        let paths2=[]
-
-        for(let i=0;i<paths.length;i++){
-            if(paths[i].includes(pawn)){
-                paths2.push(paths[i].length)
-            }
-        }
-
-        for(let i=0; i<paths.length ; i++){
-            if(paths[i].includes(pawn) && paths[i].length===Math.max(...paths2)){
-                finalPath=paths[i]
-            }
-        }
-
-        let paths3=[]
-
-        for(let i=0;i<paths.length;i++){
-            paths3.push(paths[i].length)
-        }
-
-        console.log(finalPath[finalPath.length-1])
-        console.log(continuity(finalPath[finalPath.length-1],paths))
-
-        while (continuity(finalPath[finalPath.length-1],paths)!=false){
-            let end=finalPath[finalPath.length-1]
-            let pathsxBegins=[]
-
-            for(let i=0;i<paths.length;i++){
-                if(JSON.stringify(paths[i][0])===JSON.stringify(end)){
-                    pathsxBegins.push(paths[i].length)
-                }
-            }
-
-            for (let i=0;i<paths.length;i++){
-                if(JSON.stringify(paths[i][0])===JSON.stringify(end) && paths[i].length==Math.max(...pathsxBegins)){
-                    finalPath=finalPath.concat(paths[i])
-                }
-            }
-        }
-
-        console.log(finalPath)
-
         if(paths.length==1){
             return 0
         }
-        for(let i=0;i<B.length;i++){
-            console.log(B[i].toString());
+
+        let headPos=[]
+        for(let i=0;i<paths.length;i++){
+            let end=paths[i][paths[i].length-1]
+            headPos.push(end[0])
         }
-        console.log('Pawn is: ' + pawn)
-        console.log('Initial pawn is: ' + initPawn)
-        return finalPath.length
+        //
+        //for(let i=0;i<B.length;i++){
+        //    console.log(B[i].toString());
+        //}
+        //console.log('Pawn is: ' + pawn)
+        //console.log('Initial pawn is: ' + initPawn)
+        //console.log(paths)
+        //console.log('**Lets get physical**')
+        //console.log('**Follow the noise**')
+        //
+        return (pawn[0]-Math.min(...headPos))/2
     }
 }
 
 console.log(solution(
-    ["...X.X........................", //0
+    [
+        "..............................", //0
         "..............................", //1
-        ".X.X..........................", //2
+        "..............................", //2
         "..............................", //3
-        ".X............................", //4
+        "..............................", //4
         "..............................", //5
-        ".X.X..........................", //6
+        "..............................", //6
         "..............................", //7
-        "...X.X...................X....", //8
+        "..............................", //8
         "..............................", //9
-        ".....X.X...................X.X", //10
+        "..............................", //10
         "..............................", //11
-        ".......X.X.................X..", //12
+        "..............................", //12
         "..............................", //13
-        ".........X.X.............X....", //14
+        "..............................", //14
         "..............................", //15
-        "...........X.X.........X......", //16
+        "..............................", //16
         "..............................", //17
-        ".............X.X.....X........", //18
+        "..............................", //18
         "..............................", //19
-        "..............XX.X.X..........", //20
+        "..............................", //20
         "..............................", //21
-        ".................X............", //22
+        "..............................", //22
         "..............................", //23
-        "...............X..............", //24
+        "..............................", //24
         "..............................", //25
-        ".............X................", //26
+        "..............................", //26
         "..............................", //27
-        ".........X.X..................", //28
-        "..........O..................."  //29
+        "..............................", //28
+        ".............................."  //29
        //012345678901234567890123456789
     ]))
