@@ -52,27 +52,27 @@ function solution(B) {
             if (fork[0]!=0 && fork[1]!=0){
                 leftRight='1'
             }
+            for(let i=0;i<B.length;i++){
+                console.log(B[i].toString());
+            }
+            console.log("******************")
         }if((checkPos(lastBeaten[1],lastBeaten[0],B)[0]==0 && checkPos(lastBeaten[1],lastBeaten[0],B)[1]!=0)||
         leftRight==='1'){
             let row=paths[paths.length-1].slice(0)
             row.push(checkPos(lastBeaten[1],lastBeaten[0],B)[1])
             paths.push(row)
             if (fork[0]!=0 && fork[1]!=0){
-                leftRight='2'
                 B[fork[1][0]][fork[1][1]]='O'
                 B[pawn[0]][pawn[1]]='.'
                 solution(B)
+                leftRight='2'
                 B[fork[1][0]][fork[1][1]]='*'
                 B[pawn[0]][pawn[1]]='O'
             }
-function continuity(pos, array){
-    for(let i=0;i<array.length;i++){
-        if(JSON.stringify(array[i][0])===JSON.stringify(pos)){
-            return pos;
-        }
-    }
-    return false
-}
+            for(let i=0;i<B.length;i++){
+                console.log(B[i].toString());
+            }
+            console.log("******************")
         } if((checkPos(lastBeaten[1],lastBeaten[0],B)[0]!=0 && checkPos(lastBeaten[1],lastBeaten[0],B)[1]==0)||
             leftRight==='2'){
             let row=paths[paths.length-1].slice(0)
@@ -85,9 +85,12 @@ function continuity(pos, array){
                 B[fork[0][0]][fork[0][1]]='*'
                 B[pawn[0]][pawn[1]]='O'
             }
+            for(let i=0;i<B.length;i++){
+                console.log(B[i].toString());
+            }
+            console.log("******************")
         }
     }
-
     if(JSON.stringify(initPawn)===JSON.stringify(pawn)){
         if(paths.length==1){
             return 0
@@ -98,26 +101,25 @@ function continuity(pos, array){
             let end=paths[i][paths[i].length-1]
             headPos.push(end[0])
         }
-        //
-        //for(let i=0;i<B.length;i++){
-        //    console.log(B[i].toString());
-        //}
-        //console.log('Pawn is: ' + pawn)
+        headPos=headPos.filter(function (el) {
+            return el != null;
+        });
+        console.log('Pawn is: ' + pawn)
         //console.log('Initial pawn is: ' + initPawn)
         //console.log(paths)
         //console.log('**Lets get physical**')
         //console.log('**Follow the noise**')
         //
-        return (pawn[0]-Math.min(...headPos))/2
+        return (initPawn[0]-Math.min(...headPos))/2
     }
 }
 
 console.log(solution(
     [
-        "..............................", //0
-        "..............................", //1
+        "OX............................", //0
+        "XX............................", //1
         "..............................", //2
-        "..............................", //3
+        "...X..........................", //3
         "..............................", //4
         "..............................", //5
         "..............................", //6
@@ -144,5 +146,5 @@ console.log(solution(
         "..............................", //27
         "..............................", //28
         ".............................."  //29
-       //012345678901234567890123456789
+        //012345678901234567890123456789
     ]))
